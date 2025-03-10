@@ -54,6 +54,8 @@ You will learn and visualize the following algorithms:
   6. Merge Sort  
   7. Counting Sort  
   8. Shell Sort
+
+
   **🚀 Race Mode Feature**
 AlgoVerse also introduces a Race Mode, allowing users to run two sorting algorithms simultaneously and compare their performance in real-time. This feature helps users visually understand the efficiency of different algorithms by observing their execution speed side by side.
 
