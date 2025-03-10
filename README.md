@@ -1,4 +1,4 @@
-# AlgoVerse
+# ⚡️ [AlgoVerse](https://nupurvasistha.github.io/AlgoVerse/)  
 
 Welcome to **AlgoVerse**, a **DSA (Data Structures & Algorithms) Visualizer** that helps users understand and implement various algorithms with interactive visual representations.
 
