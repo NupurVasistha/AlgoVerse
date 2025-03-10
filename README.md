@@ -91,7 +91,10 @@ AlgoVerse also introduces a Race Mode, allowing users to run two sorting algorit
 
 - **HTML** 
 - **CSS** 
-- **JAVASCRIPT** 
+- **JAVASCRIPT**
+
+[🚀To the respected TAs, I understand that React or other libraries are often mandatory, but I chose to use JavaScript alone to ensure a lightweight, dependency-free implementation, focusing on core logic and performance optimization. Or we can say, I just want to test myself to see if I am good at JavaScript or not—if I know JavaScript well, I'll be able to do React well. In the future, I'll update it to React. 🐣✨]
+
 
 ## 💻 How to Run This Project  
 ### **Step 1: Clone the Repository**  
@@ -121,11 +124,10 @@ If you want to improve **AlgoVerse**, feel free to:
 ## 📞 Contact
 Developed by **Nupur Vasistha**  
 🔗 [GitHub Profile](https://github.com/NupurVasistha)  
-✉️ Reach out via [LinkedIn](https://www.linkedin.com/in/nupur-vasistha)  
+✉️ Reach out via [LinkedIn](https://www.linkedin.com/in/nupur-vasistha-aa26a5239/)
 
 ---
 
 Enjoy learning DSA with **AlgoVerse**! 🚀
 
 
-[🚀To the respected TAs, I understand that React or other libraries are often mandatory, but I chose to use JavaScript alone to ensure a lightweight, dependency-free implementation, focusing on core logic and performance optimization. Or we can say, I just want to test myself to see if I am good at JavaScript or not—if I know JavaScript well, I'll be able to do React well. In the future, I'll update it to React. 🐣✨]
