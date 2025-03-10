@@ -93,13 +93,21 @@ AlgoVerse also introduces a Race Mode, allowing users to run two sorting algorit
 - **CSS** 
 - **JAVASCRIPT** 
 
-## 💻 How to Run This Project
-### **Step 1: Clone the Repository**
-Open your terminal and run:
+## 💻 How to Run This Project  
+### **Step 1: Clone the Repository**  
+Open your terminal and run:  
 ```sh
- git clone https://github.com/NupurVasistha/AlgoVerse.git
-```
+git clone https://github.com/NupurVasistha/AlgoVerse.git
+```  
 
+### **Step 2: Open in VS Code**  
+- Navigate to the project folder.  
+- Open it in **VS Code**.  
+
+### **Step 3: Run with Live Server**  
+- Install the **Live Server** extension in VS Code (if not already installed).  
+- Right-click on the main HTML file and select **"Open with Live Server"**.  
+- The project will launch in your browser. 🚀
 
 ### **Step 2: Start Learning!**
 Once the application starts, select an algorithm and watch it in action! 🎯
@@ -118,3 +126,6 @@ Developed by **Nupur Vasistha**
 ---
 
 Enjoy learning DSA with **AlgoVerse**! 🚀
+
+
+[🚀To the respected TAs, I understand that React or other libraries are often mandatory, but I chose to use JavaScript alone to ensure a lightweight, dependency-free implementation, focusing on core logic and performance optimization. Or we can say, I just want to test myself to see if I am good at JavaScript or not—if I know JavaScript well, I'll be able to do React well. In the future, I'll update it to React. 🐣✨]
