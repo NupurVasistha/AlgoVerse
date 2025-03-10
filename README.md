@@ -77,7 +77,7 @@ AlgoVerse also introduces a Race Mode, allowing users to run two sorting algorit
 
 **GREEDY PARADIGM**
   1. [Kruskals]
-  2. [Fractional Knapsack](https://jhabarsingh.github.io/DSALGO-VISUALIZER/templates/greedy/knapsack.ht
+  2. [Fractional Knapsack]
   3. [Huffman Coding]
 
 
