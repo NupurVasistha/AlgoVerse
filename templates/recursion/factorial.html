@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factorial Visualization</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: white;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            border: 2px solid white;
+            background: #1e1e2e;
+        }
+        .controls {
+            margin-bottom: 20px;
+        }
+        input {
+            width: 60px;
+            padding: 5px;
+            font-size: 18px;
+            text-align: center;
+            border-radius: 5px;
+            border: 2px solid white;
+            background: #333;
+            color: white;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background: #ff5f5f;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:disabled {
+            background: #888;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+<div class="controls">
+    <input type="number" id="factorialInput" min="1" max="10" value="5">
+    <button class="controller">Calculate Factorial</button>
+</div>
+
+<canvas width="500" height="500"></canvas>
+
+<script>
+    let ctx = document.querySelector("canvas").getContext("2d");
+    let rect = { width: 200, height: 40 };
+    let time_delay = 700;
+    let p;
+
+    function init() {
+        document.querySelector(".controller").addEventListener("click", () => {
+            p = parseInt(document.getElementById("factorialInput").value);
+            document.querySelector(".controller").disabled = true;
+            factorial(1, true);
+        });
+    }
+
+    async function factorial(t = 1, cal = false) {
+        ctx.fillStyle = "#1e1e2e";
+        ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        let gap = 13;
+
+        // Display factorial step by step
+        for (let i = p; i >= t; i--) {
+            await sleep(time_delay).then(() => {
+                ctx.fillStyle = "white";
+                let x = ctx.canvas.width / 2 - rect.width / 2;
+                let y = rect.height * (p - i) + (p - i) * gap + 10;
+                ctx.fillRect(x, y, rect.width, rect.height);
+                ctx.fillStyle = "#1e1e2e";
+                ctx.font = "bolder 20px Arial";
+                ctx.fillText(`${i}!`, x + rect.width / 2 - 5, y + rect.height / 2 + 5);
+            });
+        }
+
+        if (cal) {
+            let m = 1;
+            let expression = "";
+
+            for (let i = t; i <= p; i++) {
+                await sleep(time_delay).then(() => {
+                    ctx.fillStyle = "white";
+                    m *= i;
+                    let x = ctx.canvas.width / 2 - rect.width / 2;
+                    let y = rect.height * (p - i) + (p - i) * gap + 10;
+                    ctx.fillRect(x, y, rect.width, rect.height);
+                    
+                    ctx.fillStyle = "red";
+                    ctx.font = "bolder 25px Ubuntu";
+                    ctx.fillText(m, x + rect.width / 2 - 5, y + rect.height / 2 + 5);
+                });
+
+                // Update multiplication expression dynamically
+                expression = expression === "" ? `${i}` : `${expression} × ${i}`;
+                displayExpression(expression);
+
+                await sleep(time_delay).then(() => {
+                    ctx.fillStyle = "#1e1e2e";
+                    let x = ctx.canvas.width / 2 - rect.width / 2;
+                    let y = rect.height * (p - i) + (p - i) * gap + 10;
+                    ctx.fillRect(x, y, rect.width, rect.height);
+                });
+            }
+
+            let x = ctx.canvas.width / 2 - rect.width;
+            let y = ctx.canvas.height / 2 - rect.height * 2;
+            ctx.fillStyle = "white";
+            ctx.fillRect(x, y, rect.width * 2, rect.height * 4);
+            ctx.fillStyle = "red";
+            ctx.font = "bolder 40px Ubuntu";
+            ctx.fillText(m, x + rect.width, y + rect.height * 2);
+
+            setTimeout(() => {
+                window.location.reload();
+            }, 4000);
+        }
+    }
+
+    // Function to display multiplication process
+    function displayExpression(expression) {
+        ctx.fillStyle ="#1e1e2e";
+        ctx.fillRect(50, ctx.canvas.height - 50, ctx.canvas.width - 100, 40);
+        
+        ctx.fillStyle = "#ff5f5f";
+        ctx.font = "bolder 22px Arial";
+        ctx.fillText(expression, 60, ctx.canvas.height - 20);
+    }
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    init();
+</script>
+
+</body>
+</html>

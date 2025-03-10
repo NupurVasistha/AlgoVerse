@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Counting Sort Visualizer</title>
+    <style>
+       body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #1e1e2e;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            margin: 20px 0;
+            font-size: 24px;
+        }
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        button, select, input[type=range] {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button {
+            background-color: #ff4757;
+            color: white;
+        }
+        select {
+            background-color: #2f3542;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            padding: 8px;
+            font-size: 16px;
+        }
+        .range-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #2f3542;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        label {
+            font-size: 16px;
+        }
+        canvas {
+            background: #2f3542;
+            display: block;
+            margin: auto;
+            border-radius: 8px;
+        }
+        #complexity {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffdd57;
+            text-align: center;
+            background-color: #2f3542;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Counting Sort Visualizer</h1>
+    <div class="controls">
+        <button id="newArray">Generate New Array</button>
+        <button id="sort">Sort</button>
+        <div class="range-container">
+            <label>Speed (ms): <span id="speedValue">200</span></label>
+            <input type="range" id="speed" min="50" max="1000" value="200" step="50" oninput="updateSpeed()">
+        </div>
+        <div class="range-container">
+            <label>Array Size:</label>
+            <select id="arraySize" onchange="updateArraySize()"></select>
+        </div>
+    </div>
+    <canvas id="canvas" width="800" height="400"></canvas>
+    <div id="complexity"></div>
+    
+    <script>
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        let arr = [];
+        let max = 50;
+        let time_delay = 200;
+        let size = 50;
+        
+        const arraySizeSelect = document.getElementById("arraySize");
+        for (let i = 5; i <= 200; i += 5) {
+            const option = document.createElement("option");
+            option.value = i;
+            option.textContent = i;
+            if (i === 50) option.selected = true;
+            arraySizeSelect.appendChild(option);
+        }
+
+        function updateSpeed() {
+            time_delay = Number(document.getElementById("speed").value);
+            document.getElementById("speedValue").textContent = time_delay;
+        }
+
+        function generateArray() {
+            arr = Array.from({ length: size }, () => Math.floor(Math.random() * max + 10));
+            drawArray();
+            document.getElementById("complexity").style.display = "none";
+        }
+
+        function updateArraySize() {
+            size = Number(document.getElementById("arraySize").value);
+            generateArray();
+        }
+
+        function drawArray(highlight = -1) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const barWidth = Math.max(canvas.width / size - 2, 5);
+            arr.forEach((val, i) => {
+                ctx.fillStyle = i === highlight ? "#ff4757" : "#70a1ff";
+                ctx.fillRect(i * (barWidth + 2), canvas.height - (val * 6), barWidth, val * 6);
+            });
+        }
+
+        async function countingSort() {
+            document.getElementById("sort").disabled = true;
+            let count = Array(max + 10).fill(0);
+            
+            for (let i = 0; i < size; i++) {
+                count[arr[i]]++;
+                drawArray(i);
+                await new Promise(resolve => setTimeout(resolve, time_delay));
+            }
+            
+            let index = 0;
+            for (let i = 0; i <= max; i++) {
+                while (count[i] > 0) {
+                    arr[index++] = i;
+                    drawArray(index - 1);
+                    await new Promise(resolve => setTimeout(resolve, time_delay));
+                    count[i]--;
+                }
+            }
+            
+            drawArray();
+            document.getElementById("sort").disabled = false;
+            
+            setTimeout(() => {
+                const complexityDiv = document.getElementById("complexity");
+                complexityDiv.innerHTML = `
+                    <span style="color: #ff4757;">Time Complexity of Counting Sort:</span>
+                    <br>🟢 Best Case: O(n+k)
+                    <br>🟡 Average Case: O(n+k)
+                    <br>🔴 Worst Case: O(n+k)
+                `;
+                complexityDiv.style.display = "block";
+            }, 100);
+        }
+
+        document.getElementById("newArray").addEventListener("click", generateArray);
+        document.getElementById("sort").addEventListener("click", countingSort);
+        generateArray();
+    </script>
+</body>
+</html>

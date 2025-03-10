@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sort</title>
+	<style>
+		/* Global Reset */
+html, * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+/*  Body */
+body {
+    min-height: 100vh;
+    background: #F8FAFC; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/*  Heading */
+.heading {
+    text-align: center;
+    font-weight: bold;
+    font-size: 24px;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: #2563EB; 
+    padding: 15px 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    margin-bottom: 20px; 
+}
+
+
+.grid {
+    max-width: 600px;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    border: 2px solid #2563EB; 
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+
+.algo {
+    display: block;
+    padding: 15px;
+    background: #E0E7FF; 
+    margin: 10px;
+    border-radius: 8px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out;
+    box-shadow: -5px 10px 10px rgba(0, 0, 0, 0.1);
+}
+
+.algo:hover {
+    transform: translateY(-5px);
+    box-shadow: -5px 15px 15px rgba(0, 0, 0, 0.2);
+    background: #BFDBFE; 
+}
+
+
+.algo__link {
+    text-decoration: none;
+    color: #1E40AF;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease-in-out, transform 0.2s ease-in-out;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.algo__link:hover {
+    color: #1E3A8A;
+    transform: scale(1.05);
+}
+
+
+
+	/* Visualizer Container */
+.visualise {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    color: #2563EB; 
+    margin-bottom: 15px;
+}
+
+
+.visualise__array {
+	display: none;
+}
+
+.race-mode {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: center;
+            background: #F87171; 
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: 0.3s ease-in-out;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+
+
+	</style>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+	<p class='heading'>Sorting Algorithm</p>
+	<div class="visualise">
+		<select name="type" class="visualise__array">
+			<!-- <option value="sort_algorithms">Visualize</option>
+			<option value="sort_array">Use Array</option> -->
+		</select>
+	</div>
+	<div class='grid'></div>
+	<button class="race-mode" onclick="openRaceMode()">🏁 Start Algorithm Race Mode</button>
+
+	</div>
+
+	<div class="circular__read">
+		
+	</div>
+	<script>
+
+// Main
+		let grid = document.querySelector('.grid');
+		let dir_name = "sort_algorithms"
+
+		let algo = [
+			{
+				name: 'Bubble sort',
+				link: `bubble.html`
+			},
+			{
+				name: 'Selection sort',
+				link: `selection.html`
+			},
+			{
+				name: 'Insertion sort',
+				link: `insertion.html`
+			},
+			{
+				name: 'Merge sort',
+				link: `merge.html`
+			},
+			{
+				name: 'Quick sort',
+				link: `quick.html`
+			},
+			{
+				name: 'Counting sort',
+				link: `counting.html`
+			},
+			{
+				name: 'Heap sort',
+				link: `heap.html`
+			},
+			{
+				name: 'Shell sort',
+				link: `shell.html`
+			},
+		]
+		init();
+
+// Utility function 
+
+		function create_link() {
+			algo.forEach((e, i) => {
+				let html = `
+						<a href="${dir_name}/${e.link}" class="algo__link">${e.name}</a>
+				`
+				let algo = document.createElement('div');
+				algo.classList.add('algo');
+				algo.innerHTML = html;
+				grid.appendChild(algo);
+			})
+		}
+
+		function init() {
+			if(localStorage.getItem("dirname")) {
+				dir_name = localStorage.getItem("dirname");
+				document.querySelector(".visualise__array").value = dir_name;
+				console.log(dir_name)
+				
+			}
+			create_link();
+			document.querySelector(".visualise__array").addEventListener("click",(e) => {
+				let p = document.querySelector(".visualise__array").value;
+				dir_name = p;
+				localStorage.setItem("dirname", p);
+				document.querySelector(".grid").innerHTML = "";
+				create_link();
+			})
+		}
+		function openRaceMode() {
+        window.location.href = "./sort_algorithms/race.html";
+    }
+	</script>
+</body>
+</html>
+

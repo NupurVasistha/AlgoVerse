@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Algorithm Race</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #1e1e2e;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        .controls {
+            margin: 20px;
+        }
+        .container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        canvas {
+            background: #2f3542;
+            border-radius: 8px;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #2f3542;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .progress {
+            height: 20px;
+            background-color: #ff4757;
+            width: 0%;
+            border-radius: 5px;
+        }
+        .leaderboard {
+            margin-top: 20px;
+            background-color: #2f3542;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        select, button {
+            padding: 8px;
+            margin: 5px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+        button {
+            background-color: #ff4757;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sorting Algorithm Race</h1>
+
+    <div class="controls">
+        <label for="algo1">Select Algorithm 1:</label>
+        <select id="algo1">
+            <option value="bubbleSort">Bubble Sort</option>
+            <option value="selectionSort">Selection Sort</option>
+            <option value="insertionSort" selected>Insertion Sort</option>
+            <option value="shellSort">Shell Sort</option>
+            <option value="heapSort">Heap Sort</option>
+            <option value="countingSort">Counting Sort</option>
+            <option value="mergeSort">Merge Sort</option>
+            <option value="quickSort">Quick Sort</option>
+        </select>
+
+        <label for="algo2">Select Algorithm 2:</label>
+        <select id="algo2">
+            <option value="bubbleSort">Bubble Sort</option>
+            <option value="selectionSort">Selection Sort</option>
+            <option value="insertionSort" >Insertion Sort</option>
+            <option value="shellSort">Shell Sort</option>
+            <option value="heapSort">Heap Sort</option>
+            <option value="countingSort">Counting Sort</option>
+            <option value="mergeSort">Merge Sort</option>
+            <option value="quickSort">Quick Sort</option>
+        </select>
+
+        <label for="arraySize">Select Array Size:</label>
+        <select id="arraySize">
+            <option value="20">20</option>
+            <option value="50" selected>50</option>
+            <option value="100">100</option>
+            <option value="200">200</option>
+        </select>
+
+        <button onclick="startRace()">Start Race</button>
+    </div>
+
+    <div class="container">
+        <div>
+            <h3 id="algo1Name">Algorithm 1</h3>
+            <canvas id="canvas1" width="400" height="300"></canvas>
+            <div class="progress-bar"><div id="progress1" class="progress"></div></div>
+        </div>
+        <div>
+            <h3 id="algo2Name">Algorithm 2</h3>
+            <canvas id="canvas2" width="400" height="300"></canvas>
+            <div class="progress-bar"><div id="progress2" class="progress"></div></div>
+        </div>
+    </div>
+
+    <div class="leaderboard">
+        <h2>Leaderboard</h2>
+        <p id="results"></p>
+    </div>
+
+    <script>
+        function generateArray(size) {
+    return Array.from({ length: size }, () => Math.floor(Math.random() * 100 + 10));
+}
+
+function drawArray(ctx, arr) {
+    ctx.clearRect(0, 0, 400, 300);
+    arr.forEach((val, i) => {
+        ctx.fillStyle = "#70a1ff";
+        ctx.fillRect(i * (400 / arr.length), 300 - val * 2, (400 / arr.length) - 2, val * 2);
+    });
+}
+
+async function bubbleSort(arr, ctx, progressBar) {
+    let size = arr.length;
+    let startTime = performance.now();
+    for (let i = 0; i < size; i++) {
+        for (let j = 0; j < size - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+                drawArray(ctx, arr);
+                progressBar.style.width = `${((i / size) * 100).toFixed(2)}%`;
+                await new Promise(resolve => setTimeout(resolve, 50));
+            }
+        }
+    }
+    return performance.now() - startTime;
+}
+
+async function selectionSort(arr, ctx, progressBar) {
+    let size = arr.length;
+    let startTime = performance.now();
+    for (let i = 0; i < size; i++) {
+        let minIndex = i;
+        for (let j = i + 1; j < size; j++) {
+            if (arr[j] < arr[minIndex]) minIndex = j;
+        }
+        [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
+        drawArray(ctx, arr);
+        progressBar.style.width = `${((i / size) * 100).toFixed(2)}%`;
+        await new Promise(resolve => setTimeout(resolve, 50));
+    }
+    return performance.now() - startTime;
+}
+
+async function insertionSort(arr, ctx, progressBar) {
+    let size = arr.length;
+    let startTime = performance.now();
+    for (let i = 1; i < size; i++) {
+        let key = arr[i];
+        let j = i - 1;
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = key;
+        drawArray(ctx, arr);
+        progressBar.style.width = `${((i / size) * 100).toFixed(2)}%`;
+        await new Promise(resolve => setTimeout(resolve, 50));
+    }
+    return performance.now() - startTime;
+}
+async function mergeSort(arr, ctx, progressBar) {
+    let startTime = performance.now();
+    let size = arr.length;
+    let totalOperations = Math.log2(size) * size; // Approximate count of comparisons/swaps
+    let progress = { value: 0 };
+
+    async function merge(arr, left, mid, right) {
+        let leftArr = arr.slice(left, mid + 1);
+        let rightArr = arr.slice(mid + 1, right + 1);
+
+        let i = 0, j = 0, k = left;
+        while (i < leftArr.length && j < rightArr.length) {
+            if (leftArr[i] < rightArr[j]) {
+                arr[k++] = leftArr[i++];
+            } else {
+                arr[k++] = rightArr[j++];
+            }
+            drawArray(ctx, arr);
+            updateProgress();
+            await new Promise(resolve => setTimeout(resolve, 50));
+        }
+
+        while (i < leftArr.length) {
+            arr[k++] = leftArr[i++];
+            drawArray(ctx, arr);
+            updateProgress();
+            await new Promise(resolve => setTimeout(resolve, 50));
+        }
+
+        while (j < rightArr.length) {
+            arr[k++] = rightArr[j++];
+            drawArray(ctx, arr);
+            updateProgress();
+            await new Promise(resolve => setTimeout(resolve, 50));
+        }
+    }
+
+    function updateProgress() {
+        progress.value += 1;
+        let percentage = Math.min((progress.value / totalOperations) * 100, 100); // Prevent exceeding 100%
+        progressBar.style.width = `${percentage.toFixed(2)}%`;
+    }
+
+    async function sort(arr, left, right) {
+        if (left < right) {
+            let mid = Math.floor((left + right) / 2);
+            await sort(arr, left, mid);
+            await sort(arr, mid + 1, right);
+            await merge(arr, left, mid, right);
+        }
+    }
+
+    await sort(arr, 0, arr.length - 1);
+    drawArray(ctx, arr);
+    progressBar.style.width = "100%";
+    return performance.now() - startTime;
+}
+
+async function quickSort(arr, ctx, progressBar, delay = 100) {
+    let startTime = performance.now();
+
+    async function partition(low, high) {
+        let pivot = arr[high]; 
+        let i = low - 1;
+
+        for (let j = low; j < high; j++) {
+            if (arr[j] <= pivot) {  // Fix: Includes equal elements too
+                i++;
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+                drawArray(ctx, arr);  
+                await new Promise(resolve => setTimeout(resolve, delay));
+            }
+        }
+        [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]]; 
+        drawArray(ctx, arr);  
+        await new Promise(resolve => setTimeout(resolve, delay));
+        return i + 1;
+    }
+
+    async function sort(low, high) {
+        if (low < high) {
+            let pi = await partition(low, high);
+            await sort(low, pi - 1);
+            await sort(pi + 1, high);
+        }
+        progressBar.style.width = `${((high - low + 1) / arr.length) * 100}%`; // Progress update
+    }
+
+    await sort(0, arr.length - 1);
+    progressBar.style.width = "100%";
+    return performance.now() - startTime;
+}
+
+
+async function heapSort(arr, ctx, progressBar) {
+    let startTime = performance.now();
+    let size = arr.length;
+
+    async function heapify(n, i) {
+        let largest = i, left = 2 * i + 1, right = 2 * i + 2;
+
+        if (left < n && arr[left] > arr[largest]) largest = left;
+        if (right < n && arr[right] > arr[largest]) largest = right;
+
+        if (largest !== i) {
+            [arr[i], arr[largest]] = [arr[largest], arr[i]];
+            drawArray(ctx, arr);
+            await new Promise(resolve => setTimeout(resolve, 50));
+            await heapify(n, largest);
+        }
+    }
+
+    // Build max heap
+    for (let i = Math.floor(size / 2) - 1; i >= 0; i--) {
+        await heapify(size, i);
+    }
+
+    // Extract elements from heap one by one
+    for (let i = size - 1; i > 0; i--) {
+        [arr[0], arr[i]] = [arr[i], arr[0]];
+        drawArray(ctx, arr);
+        progressBar.style.width = `${((size - i) / size * 100).toFixed(2)}%`;
+        await new Promise(resolve => setTimeout(resolve, 50));
+        await heapify(i, 0);
+    }
+
+    progressBar.style.width = "100%";
+    return performance.now() - startTime;
+}
+
+
+async function shellSort(arr, ctx, progressBar) {
+    let size = arr.length;
+    let startTime = performance.now();
+    for (let gap = Math.floor(size / 2); gap > 0; gap = Math.floor(gap / 2)) {
+        for (let i = gap; i < size; i++) {
+            let temp = arr[i];
+            let j;
+            for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
+                arr[j] = arr[j - gap];
+            }
+            arr[j] = temp;
+            drawArray(ctx, arr);
+            progressBar.style.width = `${((i / size) * 100).toFixed(2)}%`;
+            await new Promise(resolve => setTimeout(resolve, 50));
+        }
+    }
+    progressBar.style.width = "100%";
+    return performance.now() - startTime;
+}
+
+async function countingSort(arr, ctx, progressBar) {
+    let startTime = performance.now();
+    let max = Math.max(...arr);
+    let min = Math.min(...arr);
+    let range = max - min + 1;
+    let count = new Array(range).fill(0);
+    let output = new Array(arr.length);
+
+    for (let i = 0; i < arr.length; i++) {
+        count[arr[i] - min]++;
+    }
+    for (let i = 1; i < range; i++) {
+        count[i] += count[i - 1];
+    }
+    for (let i = arr.length - 1; i >= 0; i--) {
+        output[count[arr[i] - min] - 1] = arr[i];
+        count[arr[i] - min]--;
+    }
+    for (let i = 0; i < arr.length; i++) {
+        arr[i] = output[i];
+        drawArray(ctx, arr);
+        progressBar.style.width = `${((i / arr.length) * 100).toFixed(2)}%`;
+        await new Promise(resolve => setTimeout(resolve, 50));
+    }
+    progressBar.style.width = "100%";
+    return performance.now() - startTime;
+}
+
+async function radixSort(arr, ctx, progressBar) {
+    let startTime = performance.now();
+
+    function getMax(arr) {
+        return Math.max(...arr);
+    }
+
+    function countingSortForRadix(arr, exp) {
+        let output = new Array(arr.length).fill(0);
+        let count = new Array(10).fill(0);
+
+        for (let i = 0; i < arr.length; i++) {
+            count[Math.floor(arr[i] / exp) % 10]++;
+        }
+        for (let i = 1; i < 10; i++) {
+            count[i] += count[i - 1];
+        }
+        for (let i = arr.length - 1; i >= 0; i--) {
+            output[count[Math.floor(arr[i] / exp) % 10] - 1] = arr[i];
+            count[Math.floor(arr[i] / exp) % 10]--;
+        }
+        for (let i = 0; i < arr.length; i++) {
+            arr[i] = output[i];
+        }
+    }
+
+    let max = getMax(arr);
+    for (let exp = 1; Math.floor(max / exp) > 0; exp *= 10) {
+        countingSortForRadix(arr, exp);
+        drawArray(ctx, arr);
+        progressBar.style.width = `${((exp / max) * 100).toFixed(2)}%`;
+        await new Promise(resolve => setTimeout(resolve, 50));
+    }
+
+    progressBar.style.width = "100%";
+    return performance.now() - startTime;
+}
+
+
+const algorithms = { bubbleSort, selectionSort, insertionSort, mergeSort, quickSort, heapSort, shellSort ,radixSort, countingSort };
+
+async function startRace() {
+    const algo1 = document.getElementById("algo1").value;
+    const algo2 = document.getElementById("algo2").value;
+    const size = parseInt(document.getElementById("arraySize").value);
+
+    document.getElementById("algo1Name").textContent = algo1.replace("Sort", " Sort");
+    document.getElementById("algo2Name").textContent = algo2.replace("Sort", " Sort");
+
+    const ctx1 = document.getElementById("canvas1").getContext("2d");
+    const ctx2 = document.getElementById("canvas2").getContext("2d");
+    const progress1 = document.getElementById("progress1");
+    const progress2 = document.getElementById("progress2");
+
+    let arr1 = generateArray(size);
+    let arr2 = [...arr1];
+
+    drawArray(ctx1, arr1);
+    drawArray(ctx2, arr2);
+
+    let [time1, time2] = await Promise.all([
+        algorithms[algo1](arr1, ctx1, progress1),
+        algorithms[algo2](arr2, ctx2, progress2)
+    ]);
+
+    function formatTime(ms) {
+    let minutes = Math.floor(ms / 60000);
+    let seconds = ((ms % 60000) / 1000).toFixed(2);
+    return minutes > 0 ? `${minutes}m ${seconds}s` : `${seconds}s`;
+}
+
+document.getElementById("results").innerHTML = `
+    🏆 <b>${time1 < time2 ? algo1 + " Wins!" : algo2 + " Wins!"}</b><br>
+    ⏱ ${algo1} Time: ${formatTime(time1)}<br>
+    ⏱ ${algo2} Time: ${formatTime(time2)}
+`;
+
+}
+
+    </script>
+</body>
+</html>

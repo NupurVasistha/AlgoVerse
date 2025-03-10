@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>AlgoVerse</title>
+	<style>
+		/* 🔹 Global Reset for Consistency */
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+		font-family: 'Inter', sans-serif;
+		scroll-behavior: smooth;
+	}
+	
+	body {
+		background: #F8FAFC;
+		color: #374151;
+	}
+	
+	/* 🔹 Main Container */
+	#main {
+		min-height: 100vh;
+		background: linear-gradient(to bottom right, #F8FAFC, #E5E7EB);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: 40px 20px;
+	}
+	
+	/* 🔹 Heading Section */
+	.main__heading {
+		background: white;
+		padding: 20px 40px;
+		border-radius: 15px;
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+		font-weight: bold;
+		font-size: 32px;
+		text-align: center;
+		color: #6366F1;
+		transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+	}
+	
+	/* .main__heading:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+	} */
+	
+	/* 🔹 Subheading */
+	.heading__text {
+		color: #64748B;
+		font-size: 28px;
+		font-weight: 600;
+		/* text-transform: uppercase; */
+		letter-spacing: 1px;
+		text-align: center;
+	}
+	
+	/* 🔹 Content Section */
+	.section {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		width: 90%;
+		margin: auto;
+		padding: 30px;
+	}
+	
+	/* 🔹 Info Boxes */
+	.info__box {
+		background: #FFFFFF;
+		border-radius: 12px;
+		padding: 20px;
+		margin: 15px;
+		transition: transform 0.2s ease-in-out;
+		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+	}
+	
+	/* .info__box:hover {
+		transform: translateY(-10px);
+		box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+	} */
+	
+	/* 🔹 Cards */
+	.card {
+		background: white;
+		border-radius: 15px;
+		overflow: hidden;
+		transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+		width: 320px;
+		margin: 20px;
+	}
+	
+	.card:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+	}
+	
+	/* 🔹 Card Image */
+	.card-img-top-parent {
+		overflow: hidden;
+		height: 250px;
+		position: relative;
+	}
+	
+	.card-img-top {
+		transition: transform 0.3s ease-in-out;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+	
+	/* .card-img-top:hover {
+		transform: scale(1.05);
+	} */
+	
+	/* 🔹 Card Heading */
+	.card__heading {
+		padding: 15px;
+		background: linear-gradient(to right, #6366F1, #14B8A6);
+		font-weight: bold;
+		text-transform: uppercase;
+		color: white;
+		font-size: 1.2rem;
+		text-align: center;
+		letter-spacing: 1px;
+	}
+	
+	/* 🔹 Buttons */
+	.button {
+		padding: 12px 24px;
+		font-size: 16px;
+		font-weight: bold;
+		color: white;
+		background: linear-gradient(135deg, #6366F1, #14B8A6);
+		border: none;
+		border-radius: 8px;
+		cursor: pointer;
+		transition: all 0.3s ease-in-out;
+		text-transform: uppercase;
+	}
+	
+	.button:hover {
+		background: linear-gradient(135deg, #14B8A6, #6366F1);
+		transform: translateY(-3px);
+	}
+	
+	
+	@media (max-width: 768px) {
+		.main__heading {
+			font-size: 24px;
+		}
+	
+		.heading__text {
+			font-size: 22px;
+		}
+	
+		.card {
+			width: 90%;
+		}
+	}
+
+	</style>
+		<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+</head>
+<body>
+     <div id='main'>
+     	<div class="main__heading">
+			<b class='heading__text title' >AlgoVerse</b>  &nbsp;&nbsp; <span>explore the world of DSA</span>     		
+     	</div>
+     	<div class="section row"></div>
+     	<div class="body__bin"></div>
+     </div>
+
+     <script>
+
+// Main
+
+     	let sec = document.querySelector('.section');
+     	let heading = document.querySelector('.main__heading');
+     	let counter = 0;
+		 document.querySelector(".title").addEventListener("click", () => {
+    if(counter == 10) {
+        if(window.localStorage.getItem("questions")) {
+            window.localStorage.removeItem("questions");
+        } else {
+            window.localStorage.setItem("questions", JSON.stringify(true)); // Store as stringified JSON
+        }
+        window.location.reload();
+    }
+    console.log(counter);
+    counter++;
+});
+
+		
+		 let details = [
+     		{
+     			heading: 'Time Complexity',
+     			image: `images/time_complexity.png`,
+     			link: 'templates/time_complexity.html',
+     			sub_topics: [
+     				"Big Oh",
+     				"Big Omega",
+     				"Big Theta"
+
+     			]
+     		},
+     		{
+     			heading: 'Array',
+     			image: `images/array.png`,
+     			link: 'templates/array.html',
+     			sub_topics: [
+     				"create",
+     				"insert",
+     				"delete",
+                         "linear search",
+                         "prefix sum",
+                         "kadane",
+                         "sliding windows",
+                         
+
+     			]
+     		},
+            
+     		{
+     			heading: 'Stack',
+     			image: `images/stack.png`,
+     			link: 'templates/stack.html',
+     			sub_topics: [
+     				"create",
+     				"push",
+     				"pop",
+     				"peek",
+                       
+                         "infix to postfix",
+                         "infix to prefix",
+                         "postfix evaluation",
+                         "prefix evaluation",
+                       
+
+     			]
+     		},
+     		
+               {
+                    heading: 'Recursion',
+                    image: 'images/recursion.jpg',
+                    link: 'templates/recursion.html',
+                    sub_topics: [
+                         "factorial",
+                         "Tower Of Hanoi"
+
+                    ]
+               },   
+     		{
+     			heading: 'Binary Search Tree',
+     			image: 'images/tree.png',
+     			link: 'templates/tree.html',
+     			sub_topics: [
+     				"create",
+     				"insert",
+     				"delete",
+     				"find",
+     				"traversal",
+//                          	"rotations"
+     			]
+     		},
+     		{
+     			heading: 'Binary Search Algorithm',
+     			image: 'images/search.jpeg',
+     			link: 'templates/search.html',
+     			sub_topics: [
+     				"binary search",
+                         	"find peak element",
+//                          	
+     			]
+     		},
+     		{
+     			heading: 'Backtracking',
+     			image: 'images/backtrack.png',
+     			link: 'templates/backtracking.html',
+     			sub_topics: [
+     				"N Queens",
+     				"maze",
+     				"sudoku"
+     			]
+     		},
+               {
+                    heading: 'Sort Algorithms',
+                    image: 'images/sort.png',
+                    link: 'templates/sort.html',
+                    sub_topics: [
+                         "bubble",
+                         "selection",
+                         "insertion",
+                         "merge",
+                         "quick",
+                         // "radix",
+                         "heap",
+                         "shell",
+                         "counting"
+                    ]
+               },
+
+			   {
+     			heading: 'Greedy',
+     			image: 'images/greedy.png',
+     			link: 'templates/greedy.html',
+     			sub_topics: [
+     				"prims",
+     				"kruskals",
+     				"fractional knapsack",
+     				"huffman coding",
+     			]
+     		},
+     		{
+     			heading: 'Dynamic Programming',
+     			image: 'images/dynamic_programming.png',
+     			link: 'templates/dynamic.html',
+     			sub_topics: [
+     				"0/1 knapsack",
+     				"unbounded Knapsack"
+     			]
+     		},
+              
+               {
+                    heading: 'Graph',
+                    image: 'images/graph.png',
+                    link: 'templates/graph.html',
+                    sub_topics: [
+                         "create",
+                         "dfs",
+                         "bfs",
+                         "kruskals",
+                         "prims",
+                         "Dijkstra's",
+                         "travelling salesman"
+                    ]
+               },
+
+			   
+     		
+
+              
+
+               
+             
+     	]
+
+        if(!localStorage.getItem("counter"))
+			pop_up();
+
+// Utility
+
+      	details.forEach((detail, index) => {
+			let temp = window.localStorage.getItem("questions");
+			if(detail.heading == "Questions" && temp == null) {
+				// Do Nothing
+			}
+			else	
+			 add_card(detail, index);
+     	}) 
+     	
+     	function add_card(details, index) {
+     		let card = document.createElement('div');
+			['col', 'col-12', 'col-md-6', 'col-lg-4'].forEach((el) => card.classList.add(el));
+			card.style.borderRadius = '10px';
+			card.style.transform = 'scale(.9)';
+			let card_html = `
+				<div class="card" style="">
+				  <div class="card__heading">${details.heading}</div>
+				  <a href="${details.link}" target="_self" class="card-img-top-parent">
+				   	<img src="${details.image}" class="card-img-top" alt="${details.heading}">
+				  </a>
+				  <div class="card-body">
+				  </div>
+				</div>
+     		`	     		
+     		card.innerHTML = card_html;
+     		sec.appendChild(card);
+
+     		details.sub_topics.forEach((e) => {
+	     		let card_span = document.createElement('button');
+	     		card_span.classList.add('badge');
+	     		card_span.classList.add('badge-primary');
+	     		card_span.innerText = e.toUpperCase();
+
+	     		document.querySelectorAll('.card-body')[index].appendChild(card_span);
+     		})
+     	}
+
+
+
+     	// POP UP
+ 
+     	function pop_up() {
+			if(+localStorage.getItem("counter") == 1) return;
+
+			if(+localStorage.getItem("first_time") == 1){
+				localStorage.setItem("counter", 1);
+			}
+			else
+				localStorage.setItem('first_time', 1)
+			
+			if(true && +localStorage.getItem('first_time') == 1) {
+     		    let cross;
+				let slider;
+				let info;
+				cross = document.createElement("span");
+				cross.innerText = "X";
+				cross.style.position = 'absolute';
+				cross.style.top = '10px';
+				cross.style.right = '10px';
+				cross.style.borderRadius = "10px";
+				cross.style.color = 'white';
+				cross.style.boxShadow = '1px 1px 10px rgba(255, 255, 255, .5)'
+				cross.style.padding = '15px 20px';
+				cross.style.cursor = 'pointer';
+				cross.classList.add('cross')
+				slider = document.createElement("div");
+				slider.style.width = '100vw';
+				slider.style.height = '100vh';
+				slider.style.overflow = 'scroll';
+				slider.style.background = 'rgba(0, 0, 0, .9)';
+				slider.style.position = 'fixed';
+				slider.style.top = '0px';
+				slider.style.left = '0px';
+				slider.style.zIndex = '20';
+				// debugger
+
+				// POPUP Info
+
+				let html =  () => {
+					let a = `
+
+					<div class="popup__heading">AlgoVerse</div>
+					<div class="popup__sub__heading">
+						<b>AlgoVerse  </b> 
+						<br />
+						<code>
+							this platform is designed for students eager to master Data Structures and Algorithms through interactive animations. It covers all essential data structures commonly used in problem-solving and development.
+						</code>
+						<hr />
+						<h5> <b>Topics Covered</b> </h5>
+						<div>` 
+					
+					let b = "";
+					for(let i=0; i<details.length; i++) 
+							b += `<span class="badge badge-primary" style="margin:3px;">${details[i].heading}</span>`
+					
+					let c = `	</div>
+								</div>
+								
+								<blockquote class="popup__sub__heading__details"> </blockquote>
+							
+						`
+					return a + b + c;
+				}
+
+				info = document.createElement("div");
+				info.innerHTML = html();
+				info.style.maxWidth = '600px';
+				info.style.textAlign = 'center';
+				info.style.margin = '30px'
+				info.style.transform = 'translateY(100px)';
+				info.style.background = 'white';
+				info.style.borderRadius = '10px'
+				info.classList.add("info__box");
+				info.style.boxShadow = '20px 20px 30px rgba(0, 0, 0, .3)'
+				info.style.padding = '20px'
+				info.style.border = '1px solid black';
+				info.style.margin = 'auto';
+				slider.appendChild(cross);
+				slider.appendChild(info);
+				slider.style.textAlign = 'center';
+
+				document.querySelector('.body__bin').appendChild(slider);
+	     		localStorage.setItem('first_time', 1)
+	     		document.querySelector('.cross').addEventListener("click", () => {
+	     			document.querySelector('.body__bin').innerHTML = '';
+	     		})
+
+	     	}
+     	}
+
+		
+
+     </script>
+</body>
+</html>
